@@ -1,12 +1,12 @@
 'use client';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { MdDashboard } from 'react-icons/md';
 import { FaList } from 'react-icons/fa';
 import { GrShift } from 'react-icons/gr';
 import { BiAdjust } from 'react-icons/bi';
 import { MdOutlineSettingsApplications } from 'react-icons/md';
 import { IconType } from 'react-icons';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface SidebarItems {
   name: string;
@@ -19,9 +19,16 @@ const SidebarItem = ({ item }: { item: SidebarItems }) => {
   const onClick = () => {
     router.push(path);
   };
+
+  const pathname = usePathname();
+  const isActive = useMemo(() => {
+    return path === pathname;
+  }, [path, pathname]);
   return (
     <div
-      className="flex items-center space-x-2 p-3 bg-slate-50 rounded-lg hover:bg-slate-200 cursor-pointer hover:text-blue-400 "
+      className={`flex items-center space-x-2 p-3 bg-slate-50 rounded-lg hover:bg-slate-200 cursor-pointer hover:text-blue-400 ${
+        isActive && 'bg-slate-200 text-blue-400'
+      }`}
       onClick={onClick}
     >
       <Icon size={20} />
